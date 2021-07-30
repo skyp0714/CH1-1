@@ -13,10 +13,38 @@
     background-size: cover;
   }
   #narration{
+    border : 5px solid white;
     color: white;
+    display: none;
+    width:300px;
+    height:300px;
+    position:absolute;
+    left:50%;
+    top:50%;
+    margin-left:-150px;
+    margin-top:-150px;
+    text-align: center;
+  }
+  #ntext{
+    font-size: 18px;
   }
   #dialogue{
+    border : 5px solid white;
+    position : fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 8rem;
     color: white;
+    display: none;
+    place-items: left;
+  }
+  #dtext{
+    font-size: 18px;
+  }
+  #transition{
+    display: none;
   }
 </style>
 
@@ -25,6 +53,7 @@
   var text = ["a1", "a2", "b1", "a3", "b2", "b3", "a4"];
   var isNarration = [true, true, false, true, false, false, true];
   var backgroundColor = ['red', 'orange', 'yellow', 'green', 'blue', 'darkblue', 'purple'];
+  var textColor = ['red', 'orange', 'yellow', 'green', 'blue', 'darkblue', 'purple'];
   var files = ["images/1.jpg",
                 "images/2.jpg",
                 "images/3.jpg",
@@ -44,19 +73,22 @@
     var nar = document.querySelector("#narration");
     var dial = document.querySelector("#dialogue");
     var body = document.querySelector("body");
+    //Last page
     if(i >= sceneNumber){
       dial.style.display = 'none';
       nar.style.display = 'none';
-      body.textContent = 'Go to CH1-2';
       body.style.backgroundImage = 'none';
+      document.querySelector('#transition').style.display = 'block';
     }else{
       if(isNarration[i]){
         nar.style.display = 'block';
         ntext.textContent = text[i];
+        nar.style.color = textColor[i];
         dial.style.display = 'none';
       }else{
         dial.style.display = 'block';
         dtext.textContent = text[i];
+        dial.style.color = textColor[i];
         nar.style.display = 'none';
       }
       body.style.backgroundImage = 'url(\'' + imgs[i].src + '\'';
@@ -76,6 +108,10 @@
     <h1> Dialogue </h1>
     <div id = "dtext">
     </div>
+  </div>
+
+  <div id = 'transition'>
+    Go to Ch1-2
   </div>
 
 </body>
