@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+  <title> CH 1-1 </title>
+  <meta charset="utf-8">
+</head>
+
+<style>
+  body{
+    height: 100vh;
+    background-image: 'none';
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  #narration{
+    color: white;
+  }
+  #dialogue{
+    color: white;
+  }
+</style>
+
+<script>
+  var sceneNumber = 7;
+  var text = ["a1", "a2", "b1", "a3", "b2", "b3", "a4"];
+  var isNarration = [true, true, false, true, false, false, true];
+  var backgroundColor = ['red', 'orange', 'yellow', 'green', 'blue', 'darkblue', 'purple'];
+  var files = ["images/1.jpg",
+                "images/2.jpg",
+                "images/3.jpg",
+                "images/4.jpg",
+                "images/5.jpg",
+                "images/6.jpg",
+                "images/7.jpg"];
+  var imgs = new Array();
+  for(var i=0; i<files.length; i++) {
+  imgs[i] = new Image();
+  imgs[i].src = files[i];
+  }
+  var i = 0;
+  function nextscene(){
+    var ntext = document.querySelector("#ntext");
+    var dtext = document.querySelector("#dtext");
+    var nar = document.querySelector("#narration");
+    var dial = document.querySelector("#dialogue");
+    var body = document.querySelector("body");
+    if(i >= sceneNumber){
+      dial.style.display = 'none';
+      nar.style.display = 'none';
+      body.textContent = 'Go to CH1-2';
+      body.style.backgroundImage = 'none';
+    }else{
+      if(isNarration[i]){
+        nar.style.display = 'block';
+        ntext.textContent = text[i];
+        dial.style.display = 'none';
+      }else{
+        dial.style.display = 'block';
+        dtext.textContent = text[i];
+        nar.style.display = 'none';
+      }
+      body.style.backgroundImage = 'url(\'' + imgs[i].src + '\'';
+    }
+    i = i + 1;
+  }
+</script>
+
+<body onmousedown="nextscene()">
+  <div id = "narration">
+    <h1> Narration </h1>
+    <div id = "ntext">
+    </div>
+  </div>
+
+  <div id = "dialogue">
+    <h1> Dialogue </h1>
+    <div id = "dtext">
+    </div>
+  </div>
+
+</body>
