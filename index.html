@@ -13,7 +13,7 @@
     background-size: cover;
   }
   #narration{
-    border : 5px solid white;
+    border : 5px solid yellow;
     color: white;
     display: none;
     width:300px;
@@ -24,12 +24,13 @@
     margin-left:-150px;
     margin-top:-150px;
     text-align: center;
+    background: white;
   }
-  #ntext{
+  #ntext {
     font-size: 18px;
   }
   #dialogue{
-    border : 5px solid white;
+    border : 5px solid yellow;
     position : fixed;
     bottom: 0;
     left: 0;
@@ -38,10 +39,12 @@
     height: 8rem;
     color: white;
     display: none;
-    place-items: left;
+    background: white;
   }
   #dtext{
     font-size: 18px;
+    position : fixed;
+    left : 30px;
   }
   #transition{
     display: none;
@@ -49,8 +52,15 @@
 </style>
 
 <script>
+
   var sceneNumber = 7;
-  var text = ["a1", "a2", "b1", "a3", "b2", "b3", "a4"];
+  var text = ["가나다라",
+              "마바사아",
+              "ABCD",
+              "자차카타",
+              "EFGH",
+              "IJKL",
+              "파하하핳"];
   var isNarration = [true, true, false, true, false, false, true];
   var backgroundColor = ['red', 'orange', 'yellow', 'green', 'blue', 'darkblue', 'purple'];
   var textColor = ['red', 'orange', 'yellow', 'green', 'blue', 'darkblue', 'purple'];
@@ -67,6 +77,33 @@
   imgs[i].src = files[i];
   }
   var i = 0;
+  var delay = 200;
+  var typeIdx;
+  var tyInt;
+
+  function print(isNar){
+    clearInterval(tyInt);
+    var typingBool = false;
+    var typingIdx=0;
+    var typingTxt = text[i];
+    typingTxt=typingTxt.split("");
+    if(typingBool==false){
+       typingBool=true;
+       if(isNar)  ntext.textContent = '';
+       else dtext.textContent = '';
+       tyInt = setInterval(typing,delay);
+     }
+     function typing(){
+       if(typingIdx<typingTxt.length){
+         if(isNar)  ntext.textContent += typingTxt[typingIdx];
+         else dtext.textContent += typingTxt[typingIdx];
+         typingIdx++;
+       } else{
+         clearInterval(tyInt);
+       }
+     }
+  }
+
   function nextscene(){
     var ntext = document.querySelector("#ntext");
     var dtext = document.querySelector("#dtext");
@@ -82,12 +119,14 @@
     }else{
       if(isNarration[i]){
         nar.style.display = 'block';
-        ntext.textContent = text[i];
+        print(true);
+        // ntext.textContent = text[i];
         nar.style.color = textColor[i];
         dial.style.display = 'none';
       }else{
         dial.style.display = 'block';
-        dtext.textContent = text[i];
+        print(false);
+        // dtext.textContent = text[i];
         dial.style.color = textColor[i];
         nar.style.display = 'none';
       }
@@ -98,15 +137,16 @@
 </script>
 
 <body onmousedown="nextscene()">
+
   <div id = "narration">
-    <h1> Narration </h1>
-    <div id = "ntext">
+    <h1 class = 'ncontent'> Narration </h1>
+    <div id = "ntext" class = 'ncontent'>
     </div>
   </div>
 
   <div id = "dialogue">
-    <h1> Dialogue </h1>
-    <div id = "dtext">
+    <h1 class = 'dcontent'> Dialogue </h1>
+    <div id = "dtext" class = 'dcontent'>
     </div>
   </div>
 
