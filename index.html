@@ -84,8 +84,8 @@
   function print(isNar){
     clearInterval(tyInt);
     var typingBool = false;
-    var typingIdx=0;
-    var typingTxt = text[i];
+    typingIdx=0;
+    typingTxt = text[i];
     typingTxt=typingTxt.split("");
     if(typingBool==false){
        typingBool=true;
@@ -111,7 +111,14 @@
     var dial = document.querySelector("#dialogue");
     var body = document.querySelector("body");
     //Last page
-    if(i >= sceneNumber){
+    if(i && typingIdx<typingTxt.length && i<= sceneNumber){
+      clearInterval(tyInt);
+      typingIdx = typingTxt.length;
+      if(isNarration[i-1])  ntext.textContent = text[i-1];
+      else dtext.textContent = text[i-1];
+      typingIdx = typingTxt.length;
+      i--;
+    }else if (i >= sceneNumber) {
       dial.style.display = 'none';
       nar.style.display = 'none';
       body.style.backgroundImage = 'none';
@@ -132,7 +139,7 @@
       }
       body.style.backgroundImage = 'url(\'' + imgs[i].src + '\'';
     }
-    i = i + 1;
+    i++;
   }
 </script>
 
