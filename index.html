@@ -12,17 +12,21 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
+  #back{
+    position : fixed;
+    top: 3rem;
+    left: 3rem;
+  }
   #narration{
-    border : 5px solid yellow;
-    color: white;
+    color: gray;
     display: none;
-    width:300px;
-    height:300px;
+    width:24rem;
+    min-height:24rem;
     position:absolute;
     left:50%;
     top:50%;
-    margin-left:-150px;
-    margin-top:-150px;
+    margin-left:-12rem;
+    margin-top:-12rem;
     text-align: center;
     background: white;
   }
@@ -30,13 +34,13 @@
     font-size: 18px;
   }
   #dialogue{
-    border : 5px solid yellow;
+    color: gray;
     position : fixed;
     bottom: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    height: 8rem;
+    min-height: 8rem;
     color: white;
     display: none;
     background: white;
@@ -65,12 +69,12 @@
   var backgroundColor = ['red', 'orange', 'yellow', 'green', 'blue', 'darkblue', 'purple'];
   var textColor = ['red', 'orange', 'yellow', 'green', 'blue', 'darkblue', 'purple'];
   var files = ["images/1.jpg",
-                "images/2.jpg",
-                "images/3.jpg",
-                "images/4.jpg",
-                "images/5.jpg",
-                "images/6.jpg",
-                "images/7.jpg"];
+                "images/1.jpg",
+                "images/1.jpg",
+                "images/1.jpg",
+                "images/1.jpg",
+                "images/1.jpg",
+                "images/1.jpg"];
   var imgs = new Array();
   for(var i=0; i<files.length; i++) {
   imgs[i] = new Image();
@@ -80,6 +84,7 @@
   var delay = 200;
   var typeIdx;
   var tyInt;
+  var isprev = false;
 
   function print(isNar){
     clearInterval(tyInt);
@@ -104,25 +109,40 @@
      }
   }
 
+  function prevscene(){
+    isprev = true;
+    if(typingIdx >= typingTxt.length){
+      if(i<2) i = 0;
+      else i = i - 2;
+      setTimeout(nextscene(), 1000);
+    }else{
+      if(i<3) i = 0;
+      else i = i - 3;
+      setTimeout(nextscene(), 1000);
+    }
+    isprev = false;
+    event.stopPropagation();
+  }
+
   function nextscene(){
     var ntext = document.querySelector("#ntext");
     var dtext = document.querySelector("#dtext");
     var nar = document.querySelector("#narration");
     var dial = document.querySelector("#dialogue");
     var body = document.querySelector("body");
+    var trans = document.querySelector('#transition');
     //Last page
-    if(i && typingIdx<typingTxt.length && i<= sceneNumber){
+    if(!isprev && i && typingIdx<typingTxt.length && i<= sceneNumber){
       clearInterval(tyInt);
       typingIdx = typingTxt.length;
       if(isNarration[i-1])  ntext.textContent = text[i-1];
       else dtext.textContent = text[i-1];
       typingIdx = typingTxt.length;
-      i--;
     }else if (i >= sceneNumber) {
       dial.style.display = 'none';
       nar.style.display = 'none';
       body.style.backgroundImage = 'none';
-      document.querySelector('#transition').style.display = 'block';
+      trans.style.display = 'block';
     }else{
       if(isNarration[i]){
         nar.style.display = 'block';
@@ -130,21 +150,28 @@
         // ntext.textContent = text[i];
         nar.style.color = textColor[i];
         dial.style.display = 'none';
+        trans.style.display = 'none';
       }else{
         dial.style.display = 'block';
         print(false);
         // dtext.textContent = text[i];
         dial.style.color = textColor[i];
         nar.style.display = 'none';
+        trans.style.display = 'none';
       }
       body.style.backgroundImage = 'url(\'' + imgs[i].src + '\'';
+      i++;
     }
-    i++;
   }
+
+
 </script>
 
-<body onmousedown="nextscene()">
-
+<body onmousedown = "nextscene()">
+  <div id = "back">
+      <img src="images/back button.png" onclick = "prevscene()" width = "10%" height = "10%">
+      </img>
+  </div>
   <div id = "narration">
     <h1 class = 'ncontent'> Narration </h1>
     <div id = "ntext" class = 'ncontent'>
